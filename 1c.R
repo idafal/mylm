@@ -53,11 +53,11 @@ summary.mylm <- function(object, ...){
 }
 model1 <- mylm(wages ~ education, data = SLID)
 
-library(dplyr)
-plot.mylm <- function(object, ...){
 
+plot.mylm <- function(object, ...){
   df <- data.frame(object$model)
-  df <- rename(df,y=wages,x=education)
+  names(df) <- c("y","x")
+  names
   y_true=df$y
   fitted_values=object$coefficients[1]+df$x*object$coefficients[2]
   residuals=y_true-fitted_values
@@ -70,7 +70,14 @@ plot.mylm <- function(object, ...){
 }
 plot(model1)
 
-
+df <- data.frame(model1$model)
+(names <- colnames(df))
+names(df) <- c("y","x")
+df
+typeof(names[1])
+str(names[1])
+name1 <- as.name(names[1])
+(df <- rename(df,y=name1))
 # This part is optional! You do not have to implement anova
 anova.mylm <- function(object, ...){
   # Code here is used when anova(object) is used on objects of class "mylm"
