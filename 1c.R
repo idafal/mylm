@@ -33,19 +33,20 @@ model1 <- mylm(wages ~ education, data = SLID)
 print.mylm <- function(object, ...){
   # Code here is used when print(object) is used on objects of class "mylm"
   # Useful functions include cat, print.default and format
-  typeof(object$formula)
+  names <- colnames(object$model)
   cat("Coefficients:\nIntercept: ")
   cat(object$coefficients[1])
-  cat("\nEducation: ")
+  cat("\n")
+  cat(names[2])
+  cat(": ")
+
   cat(object$coefficients[2])
 
 }
 model1b <- lm(wages ~ education, data = SLID)
 print(model1b)
+print(model1)
 
-liste <- as.list(strsplit(toString(model1$formula),","))
-split(liste,)
-?split
 summary.mylm <- function(object, ...){
   # Code here is used when summary(object) is used on objects of class "mylm"
   # Useful functions include cat, print.default and format
@@ -113,3 +114,4 @@ anova.mylm <- function(object, ...){
   return(model)
 
 }
+length(colnames(model1$model))
