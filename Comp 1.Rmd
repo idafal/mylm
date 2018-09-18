@@ -221,6 +221,15 @@ variances seem to increase with higher values on the x-axis. However, there are 
 
 To ensure the function was coded correctly, the residual plots was compared to the plot from the plotting function for lm-objects. 
 
+# d)
+The residual sum of squares, $SSE$, for a model can be found by
+$$SSE = (\textbf{Y}-\textbf{X} \mathbf{\beta})^T(\textbf{Y}-\textbf{X}\mathbf{\beta}), $$ and for the model at hand, $SSE = 223694.3$. For a model defined by a design matrix of dimension $n\times p$ the degrees of freedom, $df$, is given by $df = n-p$. In this case $df = 3987-2 = 3985$. 
+
+The total sum of squares, $SST$, is defined as $$SST = \textbf{Y}^T (\textbf{I}-\frac{1}{n}\textbf{1}\textbf{1}^T) \textbf{Y}.$$ For the model in this task $SST = 246790.5$. In order to test the significance of the regression, a $\chi^2$-test can be used. The test statistic is then given by $\chi^2 = (\textrm{numerator degrees of freedom})F$, where $F$ is the test statistic for a $F$-test and the numerator degrees of freedom is equal to $p-1 = k$. Hence, the test statistic for the $\chi^2$-test is $$\chi^2 = \frac{(SST-SSE)}{\frac{SSE}{n-p}}.$$ The value of the test statistic is $\chi^2=411.4471$.To test for the significance of the regression one can find the p-value associated with this test statistic. The p-value in this case is $1.77\cdot10^{-91}$. With a p-value this small, it is reasonable to conclude that the regression is significant.
+
+When testing one regression parameter the $F$-statistic is equal to the squared of the $T$-statistic. This is the case for single linear regression. The $\chi^2$-distribution is the asymptotic distribution of the $F$-distribution, and the normal distribution is the asymptotic distribution of the $T$-distribution. Therefore the $\chi^2$-statistic should be equal to the square of the $z$-statistic for a simple linear regression. The $z$-statistic for the regression coefficient in the model at hand is $z = 20.284$, and $z^2 = 411.4407$. The difference between the test statistics is probably due to rounding errors. The p-values for the two test statistics is also equal. The critical value for the $\chi^2$ test is found to be $3.841$ for significance level $\alpha = 0.05$ and the critical value for the $z$-test is $1.645$ for $\alpha = 0.05$.
+
+
 # Part 3
 
 ## a)
