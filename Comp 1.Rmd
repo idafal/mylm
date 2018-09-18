@@ -1,0 +1,172 @@
+--- 
+title: 'TMA4315: Compulsory exercise 1 (title)'
+output:
+  html_document:
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+date: "`r format(Sys.time(), '%d.%m.%Y')`"
+subtitle: 'Group 0: Name1, Name2 (subtitle)'
+---
+
+```{r setup, include = FALSE}
+library(formatR)
+showsol <- FALSE
+library(knitr)
+opts_chunk$set(tidy.opts = list(width.cutoff = 68), tidy = TRUE, warning = FALSE, error = FALSE, message = FALSE, echo = TRUE)
+```
+
+# Part 1
+
+## a)
+
+The following shows some diagnostic polts based on the data set from Canada, containing information about wages, education, age, sex and language. 
+
+```{r, echo = FALSE}
+library(GGally)
+#install.packages("car")
+library(car)
+data(SLID, package = "carData")
+SLID <- SLID[complete.cases(SLID), ]
+ggpairs(SLID)
+```
+
+The properties that seem to be most correlated with the wages is age and education, with numerical correlation value of 0.36 and 0.306 respectively. On the scatter plots of wages versus age and wage versus education, it can be seen that among those with highest wages there are few with low age and low education. 
+
+On the other hand, the wage level does not seem to be related to the language of the observed people. It is also little correlation between wages and sex, but the average wage is slightly higher for the males than for the females. 
+
+If we want to perform a multiple linear regression analysis to predict wages based on some of the other variables we have to assume that relationship between wages and the variebles is in fact linear. Also, the residuals are assumed to be normally distributed and homoscedastic, and the explanatory covariates are assumed to be uncorrelated. 
+
+#Part 2
+
+## a) 
+
+```{r, echo = FALSE}
+mylm <- function(formula, data = list(), contrasts = NULL, ...){
+  # Extract model matrix & responses
+  mf <- model.frame(formula = formula, data = data)
+  X  <- model.matrix(attr(mf, "terms"), data = mf, contrasts.arg = contrasts)
+  y  <- model.response(mf)
+  terms <- attr(mf, "terms")
+  n = nrow(X)
+  p = ncol(X)
+  k = p-1
+
+  # Add code here to calculate coefficients, residuals, fitted values, etc...
+  # and store the results in the list est
+  beta_hat = solve(t(X)%*%X)%*%t(X)%*%y
+  sigma_sq_hat = (1/(n-p))*t(y-X%*%beta_hat)%*%(y-X%*%beta_hat)
+  cov_beta_hat = drop(sigma_sq_hat)*solve(t(X)%*%X)
+  est <- list(terms = terms, model = mf)
+  est$coefficients <- beta_hat
+  est$cov <- cov_beta_hat
+
+  # Store call and formula used
+  est$call <- match.call()
+  est$formula <- formula
+
+  df = n-p
+  SSE = t(y-X%*%beta_hat)%*%(y-X%*%beta_hat)
+  SST = t(y)%*%(diag(n)-drop(1/n)*rep(1, n)%*%t(rep(1, n)))%*%y
+  R2 = 1-SSE/SST
+  X2 = ((SST-SSE))/(SSE/(n-p))
+  pX2 = pchisq(X2, k)
+  # What is the relationship between the X2-statistic and the z-statistic?
+  # Kanskje "Testing one regression coefficient" i modul 2
+  # Find the critical value for both tests
+  vec = c(SSE, SST, R2, X2, pX2, n, p, df)
+  est$vec = vec
+
+  # Set class name. This is very important!
+  class(est) <- 'mylm'
+
+  # Return the object with all results
+  return(est)
+}
+
+print.mylm <- function(object, ...){
+  # Code here is used when print(object) is used on objects of class "mylm"
+  # Useful functions include cat, print.default and format
+  names <- colnames(object$cov)
+  cat("Coefficients: ")
+  for (i in 1:(length(names))){
+    cat("\n")
+    cat(names[i])
+    cat(": ")
+    cat(object$coefficients[i])
+  }
+  cat("\n")
+}
+
+summary.mylm <- function(object, ...){
+  # Code here is used when summary(object) is used on objects of class "mylm"
+  # Useful functions include cat, print.default and format
+  names <- colnames(object$cov)
+  cat("R squared: ")
+  cat(object$vec[3])
+  cat("\n")
+  cat("Coefficients:\n")
+  SD = vector(length = object$vec[7])
+  for(i in 1:object$vec[7]){
+    SD[i] = sqrt(object$cov[i,i])
+  }
+  Estimates = object$coefficients
+  ztest = Estimates/SD
+  pvalue = 2*pnorm(-abs(ztest))
+  table = data.frame(Estimates, SD, ztest, pvalue)
+  rownames = vector(length = object$vec[7])
+  for(i in 1:length(names)){
+    rownames[i] = names[i]
+  }
+  row.names(table) = rownames
+  format(table, digits = 4)
+}
+
+
+```
+
+In order to estimate the regression coefficients we have used
+
+${\hat{\beta}} = (X^TX)^{-1}X^TY$
+
+The following prints gives the estimated intercept and coefficient from the linear regression with wages as response and education as predictor using the mylm and lm functions respectively.
+
+```{r, echo=FALSE}
+model1 <- mylm(wages ~ education, data = SLID)
+print(model1)
+
+model1b <- lm(wages ~ education, data = SLID)
+print(model1b)
+
+```
+
+We observe that the two functions calculates equal values, indicating that our function works correctly for these estimations. 
+
+# b)
+
+We have estimated the variance as
+
+$\hat{\sigma}^2 = \frac{1}{n-p} (Y -X\hat{\beta})^T(Y-X\hat{\beta})$
+
+and further found the covariance matrix as
+
+$Cov = \hat{\sigma}^2 X^T X$
+
+The standard deviation for the estimated coefficients are set to the corresponding diagonal element of the covariance matrix. 
+
+The z-statistic has the value
+
+$z = \frac{\hat{\beta} - \beta_0}{SD} = \frac{\hat{\beta}}{SD}$
+
+where $\beta_0$ is the beta-value of the the null hypothesis, in this case $\beta_0 = 0$. 
+
+The p-value is calculated as $2 \times pnorm(-|z|)$, where "pnorm" is a function in r which returns the p-value corresponding to its input. We are interested in the p-value corresponding to the two-sided test, so therefore we are multiplying the value by two. 
+
+
+```{r, echo=FALSE}
+summary(model1)
+summary(model1b)
+```

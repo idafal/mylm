@@ -40,17 +40,26 @@ mylm <- function(formula, data = list(), contrasts = NULL, ...){
 print.mylm <- function(object, ...){
   # Code here is used when print(object) is used on objects of class "mylm"
   # Useful functions include cat, print.default and format
+  names <- colnames(object$model)
   cat("Coefficients:\nIntercept: ")
   cat(object$coefficients[1])
-  cat("\nEducation: ")
-  cat(object$coefficients[2])
+  for (i in 2:(length(names))){
+    cat("\n")
+    cat(names[i])
+    cat(": ")
+    cat(object$coefficients[i])
+  }
 }
 
 summary.mylm <- function(object, ...){
   # Code here is used when summary(object) is used on objects of class "mylm"
   # Useful functions include cat, print.default and format
   cat("Coefficients:\n")
-  SD = c(sqrt(object$cov[1,1]), sqrt(object$cov[2,2]))
+  dimension = dim(object$cov)
+  SD = vector("numeric", length = dimension)
+  for (i in 1:dimension){
+    SD[i] = sqrt(object$cov[i,i])
+  }
   Estimates = object$coefficients
   ztest = Estimates/SD
   pvalue = 2*pnorm(-abs(ztest))
