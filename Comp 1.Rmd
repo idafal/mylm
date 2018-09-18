@@ -257,9 +257,18 @@ The estimated coefficient of predictor $i$ can be interpreted as the value by wh
 
 ## c) 
 
+Below, three different models are fitted using the `mylm`-package with `wages` as response. The first is with `age` as the only covariate, the second is with `language` as the only covariate, and the third is with both `age` and `language` in a multiple regression.
+
 ```{r, echo=FALSE}
-model3 = mylm(wages ~ age, data = SLID)
+model3 = mylm(wages ~ -1+ age, data = SLID)
+model4 = mylm(wages ~ -1 +education, data =SLID)
+model5 = mylm(wages ~education + age, data = SLID)
+summary(model3)
+summary(model4)
+summary(model5)
 ```
+
+We observe that the coefficients for `age` in the simple and multiple model is respectively $0.23$ and $0.26$. For education, the values are $0.79$ and $0.90$. The values differ slightly. This is because the matrix $\bf{X^TX}$ is not diagonal and the design matrix is not othogonal. This means that in our case, the estimated coefficients are not independent of each other. The estimated coefficient for `age` will affect the value for the estimated coefficient for `education`. This is also what was found in problem 1, where we found a small correlation between `age` and `education`.
 
 # Part 4
 

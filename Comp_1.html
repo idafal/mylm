@@ -362,6 +362,22 @@ div.tocify {
 </div>
 <div id="c-1" class="section level2">
 <h2>c)</h2>
+<p>Below, three different models are fitted using the <code>mylm</code>-package with <code>wages</code> as response. The first is with <code>age</code> as the only covariate, the second is with <code>language</code> as the only covariate, and the third is with both <code>age</code> and <code>language</code> in a multiple regression.</p>
+<pre><code>## R squared: 0.05513322
+## Coefficients:</code></pre>
+<pre><code>##     Estimates       SD ztest pvalue
+## age    0.4009 0.003103 129.2      0</code></pre>
+<pre><code>## R squared: 0.07389171
+## Coefficients:</code></pre>
+<pre><code>##           Estimates       SD ztest pvalue
+## education     1.147 0.008767 130.8      0</code></pre>
+<pre><code>## R squared: 0.2490697
+## Coefficients:</code></pre>
+<pre><code>##             Estimates       SD  ztest     pvalue
+## (Intercept)   -6.0217 0.618924 -9.729  2.263e-22
+## education      0.9015 0.035760 25.209 3.203e-140
+## age            0.2571 0.008951 28.721 2.077e-181</code></pre>
+<p>We observe that the coefficients for <code>age</code> in the simple and multiple model is respectively <span class="math inline">\(0.23\)</span> and <span class="math inline">\(0.26\)</span>. For education, the values are <span class="math inline">\(0.79\)</span> and <span class="math inline">\(0.90\)</span>. The values differ slightly. This is because the matrix <span class="math inline">\(\bf{X^TX}\)</span> is not diagonal and the design matrix is not othogonal. This means that in our case, the estimated coefficients are not independent of each other. The estimated coefficient for <code>age</code> will affect the value for the estimated coefficient for <code>education</code>. This is also what was found in problem 1, where we found a small correlation between <code>age</code> and <code>education</code>.</p>
 </div>
 </div>
 <div id="part-4" class="section level1">
