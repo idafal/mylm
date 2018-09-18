@@ -30,19 +30,21 @@ mylm <- function(formula, data = list(), contrasts = NULL, ...){
   return(est)
 }
 model1 <- mylm(wages ~ education, data = SLID)
+
 print.mylm <- function(object, ...){
   # Code here is used when print(object) is used on objects of class "mylm"
   # Useful functions include cat, print.default and format
   names <- colnames(object$model)
+
   cat("Coefficients:\nIntercept: ")
   cat(object$coefficients[1])
   cat("\n")
   cat(names[2])
   cat(": ")
-
   cat(object$coefficients[2])
-
 }
+
+
 model1b <- lm(wages ~ education, data = SLID)
 print(model1b)
 print(model1)
@@ -58,7 +60,6 @@ model1 <- mylm(wages ~ education, data = SLID)
 plot.mylm <- function(object, ...){
   df <- data.frame(object$model)
   names(df) <- c("y","x")
-  names
   y_true=df$y
   fitted_values=object$coefficients[1]+df$x*object$coefficients[2]
   residuals=y_true-fitted_values
@@ -115,3 +116,9 @@ anova.mylm <- function(object, ...){
 
 }
 length(colnames(model1$model))
+
+names <- c('en','to','tre')
+lapply(names,paste)
+?drop
+?vector
+?I
