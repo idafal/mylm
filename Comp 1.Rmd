@@ -19,11 +19,15 @@ library(knitr)
 opts_chunk$set(tidy.opts = list(width.cutoff = 68), tidy = TRUE, warning = FALSE, error = FALSE, message = FALSE, echo = TRUE)
 ```
 
+# Introduction
+
+In this compulsary exercise we are going to make an r package, called "mylm", with some of the same functionality as found in the already existing r package `lm`. We are going to test our implementations on the
+
 # Part 1
 
 ## a)
 
-The following shows some diagnostic polts based on the data set from Canada, containing information about wages, education, age, sex and language. 
+The aim of part 1 is to get an overview of the dataset before making the linear regressions. The following diagram shows some diagnostic polts based on the data set from Canada in the car-library, containing information about `wages`, `education`, `age`, `sex` and `language`. 
 
 ```{r, echo = FALSE}
 library(GGally)
@@ -34,11 +38,13 @@ SLID <- SLID[complete.cases(SLID), ]
 ggpairs(SLID)
 ```
 
-The properties that seem to be most correlated with the wages is age and education, with numerical correlation value of 0.36 and 0.306 respectively. On the scatter plots of wages versus age and wage versus education, it can be seen that among those with highest wages there are few with low age and low education. 
+In the later exercises we are going to perform regression using `wages` as response. The properties that seem to be most correlated with the `wages` is `age` and `education`, with numerical correlation value of 0.36 and 0.306 respectively. On the scatter plots of `wages` versus `age` and `wages` versus `education`, it can be seen that among those with highest wages there are few with low age and low education. 
 
-On the other hand, the wage level does not seem to be related to the language of the observed people. It is also little correlation between wages and sex, but the average wage is slightly higher for the males than for the females. 
+On the other hand, the wage level does not seem to be related to the `language` of the observed people. It also shows little correlation with `sex`, but the average wage is slightly higher for the males than for the females. 
 
-If we want to perform a multiple linear regression analysis to predict wages based on some of the other variables we have to assume that relationship between wages and the variebles is in fact linear. Also, the residuals are assumed to be normally distributed and homoscedastic, and the explanatory covariates are assumed to be uncorrelated. 
+If we want to perform a multiple linear regression analysis to predict wages based on some of the other variables we have to assume that relationship between wages and the variebles is in fact linear. Also, the residuals are assumed to be normally distributed and homoscedastic, and the explanatory covariates are assumed to be uncorrelated.
+
+Based on the diagnostic plots, none of the explanatory variables seem to be highly correlated. However, for instance `education` and `age` correlates slightly, with coefficient of correlation of -0.106. 
 
 #Part 2
 
@@ -128,11 +134,11 @@ summary.mylm <- function(object, ...){
 
 ```
 
-In order to estimate the regression coefficients we have used
+In order to estimate the regression coefficients, $\mathbf{\hat{\beta}}$ we have used the matrix formula
 
-${\hat{\beta}} = (X^TX)^{-1}X^TY$
+${\bf{\hat{\beta}}} = (X^TX)^{-1}X^TY$
 
-The following prints gives the estimated intercept and coefficient from the linear regression with wages as response and education as predictor using the mylm and lm functions respectively.
+The following printouts gives the estimated intercept and regression coefficient from the linear regression with `wages` as response and `education` as predictor using `mylm` and `lm` respectively.
 
 ```{r, echo=FALSE}
 model1 <- mylm(wages ~ education, data = SLID)
@@ -143,7 +149,7 @@ print(model1b)
 
 ```
 
-We observe that the two functions calculates equal values, indicating that our function works correctly for these estimations. 
+This shows that the two functions calculates equal values, indicating that our function works as it was ment to in this case. 
 
 # b)
 
@@ -157,16 +163,58 @@ $Cov = \hat{\sigma}^2 X^T X$
 
 The standard deviation for the estimated coefficients are set to the corresponding diagonal element of the covariance matrix. 
 
-The z-statistic has the value
+The z-statistic for the z-test has the value
 
 $z = \frac{\hat{\beta} - \beta_0}{SD} = \frac{\hat{\beta}}{SD}$
 
 where $\beta_0$ is the beta-value of the the null hypothesis, in this case $\beta_0 = 0$. 
 
-The p-value is calculated as $2 \times pnorm(-|z|)$, where "pnorm" is a function in r which returns the p-value corresponding to its input. We are interested in the p-value corresponding to the two-sided test, so therefore we are multiplying the value by two. 
+The p-value is calculated as $2 \times pnorm(-|z|)$, where "pnorm" is a function in r which returns the p-value corresponding to the value of its input statistic. We are interested in the p-value corresponding to the two-sided test, so therefore we are multiplying the value by two. 
 
+$R^2$ is calculated as 
+
+$R^2 = 1 - \frac{SSE}{SST}$
+
+where SSE and SST is
+
+$SST = {\bf Y}^T({\bf I}-\frac{1}{n}{\bf 1 1}^T){\bf Y}$
+
+$SSE = ({\bf Y}-{\bf X}{\hat{\beta}})^T({\bf Y}-{\bf X}{\bf \hat{\beta}})$
+
+These values are presented in a "summary-table" in a similar way as the summary corresponding to `lm`. The following shows the summary of the regression using `mylm` and `lm` respectively. 
 
 ```{r, echo=FALSE}
 summary(model1)
 summary(model1b)
+```
+
+# Part 3
+
+## a)
+The matemathical formulas presented in part 2 works for multiple linear regression as well. The printout of the regression of wages with predictors education and wage using the mylm function and the lm function are
+
+```{r, echo = FALSE}
+model2 <- mylm(wages ~ education + age, data = SLID)
+model2b <- lm(wages ~ education + age, data = SLID)
+
+print(model2)
+print(model2b)
+
+```
+
+## b)
+
+Thu summaries for this regression using lm and mylm including standard deviation and z-test are shown below.
+
+```{r, echo= FALSE}
+summary(model2)
+summary(model2b)
+```
+
+The estimated coefficient of predictor $i$ can be interpreted as the value by which the wages will increase when predictor $i$ increases by one and the other predictors are kept constant.
+
+## c) 
+
+```{r, echo=FALSE}
+model3 = mylm(wages ~ age, data = SLID)
 ```
