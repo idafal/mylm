@@ -5,8 +5,8 @@ date: "`r format(Sys.time(), '%d.%m.%Y')`" # the current date, can be regular te
 output: # 3rd letter intentation hierarchy
  # html_document:
  #    toc: true
- #  toc_float: true
-#    toc_depth: 2
+ #    toc_float: true
+ #    toc_depth: 2
    pdf_document:
     toc: false
     toc_depth: 2
@@ -137,9 +137,9 @@ summary.mylm <- function(object, ...){
 
 ```
 
-In order to estimate the regression coefficients, $\mathbf{\hat{\beta}}$ we have used the matrix formula
+In order to estimate the regression coefficients, $\mathbf{\hat{\beta}}$, we have used the matrix formula
 
-${\bf{\hat{\beta}}} = (X^TX)^{-1}X^TY$
+${\bf{\hat{\beta}}} = (X^TX)^{-1}X^TY .$
 
 The following printouts gives the estimated intercept and regression coefficient from the linear regression with `wages` as response and `education` as predictor using `mylm` and `lm` respectively.
 
@@ -152,37 +152,37 @@ print(model1b)
 
 ```
 
-This shows that the two functions calculates equal values, indicating that our function works as it was ment to in this case. 
+This shows that the two functions calculates equal values, indicating that our function works as it was meant to in this case. 
 
-# b)
+## b)
 
 We have estimated the variance as
 
-$\hat{\sigma}^2 = \frac{1}{n-p} (Y -X\hat{\beta})^T(Y-X\hat{\beta})$
+$\hat{\sigma}^2 = \frac{1}{n-p} (Y -X\hat{\beta})^T(Y-X\hat{\beta}),$
 
 and further found the covariance matrix as
 
-$Cov = \hat{\sigma}^2 X^T X$
+$\text{Cov} = \hat{\sigma}^2 X^T X.$
 
-The standard deviation for the estimated coefficients are set to the corresponding diagonal element of the covariance matrix. 
+The standard deviation for the estimated coefficients are set to the corresponding square roots of the diagonal element of the covariance matrix. 
 
 The z-statistic for the z-test has the value
 
-$z = \frac{\hat{\beta} - \beta_0}{SD} = \frac{\hat{\beta}}{SD}$
+$z = \frac{\hat{\beta} - \beta_0}{SD} = \frac{\hat{\beta}}{SD},$
 
 where $\beta_0$ is the beta-value of the the null hypothesis, in this case $\beta_0 = 0$. 
 
-The p-value is calculated as $2 \times pnorm(-|z|)$, where "pnorm" is a function in r which returns the p-value corresponding to the value of its input statistic. We are interested in the p-value corresponding to the two-sided test, so therefore we are multiplying the value by two. 
+The p-value is calculated as $2 \times \text{`pnorm`}(-|z|)$, where "pnorm" is a function in R which returns the p-value corresponding to the value of its input statistic. We are interested in the p-value corresponding to the two-sided test, so therefore we are multiplying the value by two. 
 
 $R^2$ is calculated as 
 
-$R^2 = 1 - \frac{SSE}{SST}$
+$R^2 = 1 - \frac{SSE}{SST},$
 
 where SSE and SST is
 
-$SST = {\bf Y}^T({\bf I}-\frac{1}{n}{\bf 1 1}^T){\bf Y}$
+$SST = {\bf Y}^T({\bf I}-\frac{1}{n}{\bf 1 1}^T){\bf Y},$
 
-$SSE = ({\bf Y}-{\bf X}{\hat{\beta}})^T({\bf Y}-{\bf X}{\bf \hat{\beta}})$
+$SSE = ({\bf Y}-{\bf X}{\hat{\beta}})^T({\bf Y}-{\bf X}{\bf \hat{\beta}}).$
 
 These values are presented in a "summary-table" in a similar way as the summary corresponding to `lm`. The following shows the summary of the regression using `mylm` and `lm` respectively. 
 
@@ -191,13 +191,13 @@ summary(model1)
 summary(model1b)
 ```
 
-# c)
+## c)
 
-In the code chunk below, the code for the residual plot is shown along with the plot for `model1`. The raw residuals is the difference between the observed responses $Y$ and the estimated response $\hat Y$. For this specific dataset, these values is respectively the observed and estimated values for `wages`. The formula for the the residuals is  
+In the code chunk below, the code for the residual plot is shown along with the plot for `model1`. The raw residuals are the difference between the observed responses $Y$ and the estimated response $\hat Y$. For this specific dataset, these values are respectively the observed and estimated values for `wages`. The formula for the residuals is  
 
 $$\hat\epsilon = Y-\hat Y, $$ where 
 
-$$\hat Y = X\hat \beta $$
+$$\hat Y = X\hat \beta. $$
 
 ```{r, echo=FALSE}
 library(ggplot2)
@@ -218,24 +218,28 @@ plot(model1)
 #plot(model1b)
 ```
 
-In the mylm-residual plot for the SLID dataset, it seems that the residuals are not homoscedastic, meaning that the
-variances seem to increase with higher values on the x-axis. However, there are fewer data points for lower values of the fitted values, so this tendency might be due to randomness. We also want the residuals to be symmetrically distributed around zero, which is not the case. This implies that the residuals might be correlated and we might want to try other regression models as the model assumptions is not preserved.
+In the mylm-residual plot for the SLID dataset, it seems like the residuals are not homoscedastic, meaning that the
+variance seem to increase with higher values on the x-axis. However, there are fewer data points for lower values of the fitted values, so this tendency might be due to randomness. We also want the residuals to be symmetrically distributed around zero, which is not the case. This implies that the residuals might be correlated and we might want to try other regression models as the model assumptions is not preserved.
 
-To ensure the function was coded correctly, the residual plots was compared to the plot from the plotting function for lm-objects. 
+To ensure the function was coded correctly, the residual plot was compared to the plot from the plotting function for lm-objects. 
 
-# d)
-The residual sum of squares, $SSE$, for a model can be found by
+## d)
+The residual sum of squares, $SSE$, can be found by
 $$SSE = (\textbf{Y}-\textbf{X} \mathbf{\beta})^T(\textbf{Y}-\textbf{X}\mathbf{\beta}), $$ and for the model at hand, $SSE = 223694.3$. For a model defined by a design matrix of dimension $n\times p$ the degrees of freedom, $df$, is given by $df = n-p$. In this case $df = 3987-2 = 3985$. 
 
 The total sum of squares, $SST$, is defined as $$SST = \textbf{Y}^T (\textbf{I}-\frac{1}{n}\textbf{1}\textbf{1}^T) \textbf{Y}.$$ For the model in this task $SST = 246790.5$. In order to test the significance of the regression, a $\chi^2$-test can be used. The test statistic is then given by $\chi^2 = (\textrm{numerator degrees of freedom})F$, where $F$ is the test statistic for a $F$-test and the numerator degrees of freedom is equal to $p-1 = k$. Hence, the test statistic for the $\chi^2$-test is $$\chi^2 = \frac{(SST-SSE)}{\frac{SSE}{n-p}}.$$ The value of the test statistic is $\chi^2=411.4471$.To test for the significance of the regression one can find the p-value associated with this test statistic. The p-value in this case is $1.77\cdot10^{-91}$. With a p-value this small, it is reasonable to conclude that the regression is significant.
 
-When testing one regression parameter the $F$-statistic is equal to the squared of the $T$-statistic. This is the case for single linear regression. The $\chi^2$-distribution is the asymptotic distribution of the $F$-distribution, and the normal distribution is the asymptotic distribution of the $T$-distribution. Therefore the $\chi^2$-statistic should be equal to the square of the $z$-statistic for a simple linear regression. The $z$-statistic for the regression coefficient in the model at hand is $z = 20.284$, and $z^2 = 411.4407$. The difference between the test statistics is probably due to rounding errors. The p-values for the two test statistics is also equal. The critical value for the $\chi^2$ test is found to be $3.841$ for significance level $\alpha = 0.05$ and the critical value for the $z$-test is $1.645$ for $\alpha = 0.05$.
+When testing one regression parameter, the $F$-statistic is equal to the squared of the $T$-statistic. This is the case for single linear regression. The $\chi^2$-distribution is the asymptotic distribution of the $F$-distribution, and the normal distribution is the asymptotic distribution of the $T$-distribution. Therefore the $\chi^2$-statistic should be equal to the square of the $z$-statistic for a simple linear regression. The $z$-statistic for the regression coefficient in the model at hand is $z = 20.284$, and $z^2 = 411.4407$. The difference between the test statistics is probably due to rounding errors. The p-values for the two test statistics is also equal. The critical value for the $\chi^2$ test is found to be $3.841$ for significance level $\alpha = 0.05$ and the critical value for the $z$-test is $1.96$ for $\alpha = 0.025$. The critical value for $\chi^2$ is equal to the critical value of $z$ squared. 
+ 
+## e)
+ 
+The coefficient of determination, $R^2$, is defined as $$R^2 = \frac{SST-SSE}{SST},$$ and it is a measure of how much of the variance that is explained by the model. The maximum value of $R^2$ is 1, and a value close to 1 is preferred. For the current model the summary function now returns the value of $R^2$, as seen in the summary print-out in problem 2b).
 
 
 # Part 3
 
 ## a)
-The matemathical formulas presented in part 2 works for multiple linear regression as well. The printout of the regression of wages with predictors education and wage using the mylm function and the lm function are
+The matemathical formulas presented in part 2 works for multiple linear regression as well. The printout of the regression of `wages` with predictors `education` and `age` using the `mylm` function and the `lm` function are
 
 ```{r, echo = FALSE}
 model2 <- mylm(wages ~ education + age, data = SLID)
@@ -243,12 +247,11 @@ model2b <- lm(wages ~ education + age, data = SLID)
 
 print(model2)
 print(model2b)
-
 ```
 
 ## b)
 
-Thu summaries for this regression using lm and mylm including standard deviation and z-test are shown below.
+The summaries for this regression using `lm` and `mylm` including standard deviation and z-test are shown below.
 
 ```{r, echo= FALSE}
 summary(model2)
@@ -270,7 +273,7 @@ summary(model4)
 summary(model5)
 ```
 
-We observe that the coefficients for `age` in the simple and multiple model is respectively $0.23$ and $0.26$. For education, the values are $0.79$ and $0.90$. The values differ slightly. This is because the matrix $\bf{X^TX}$ is not diagonal and the design matrix is not othogonal. This means that in our case, the estimated coefficients are not independent of each other. The estimated coefficient for `age` will affect the value for the estimated coefficient for `education`. This is also what was found in problem 1, where we found a small correlation between `age` and `education`.
+We observe that the coefficients for `age` in the simple and multiple model is respectively $0.23$ and $0.26$. For education, the values are $0.79$ and $0.90$. The values differ slightly. This is because the matrix $\bf{X^TX}$ is not diagonal and the design matrix is not orthogonal. This means that in our case, the estimated coefficients are not independent of each other. The estimated coefficient for `age` will affect the value for the estimated coefficient for `education`. This is also what was found in problem 1, where we found a small correlation between `age` and `education`.
 
 # Part 4
 
@@ -294,7 +297,7 @@ Since we have many covariates and based on the both significance of the coeffici
 
 **Model 2**
 
-Here we estimate `wages` as a function of `language` and `age`, in addition to an interaction term between the covariates. 
+Here we estimate `wages` as a function of `language` and `age`, in addition to an interaction term between the two covariates. 
 
 ```{r, echo=FALSE}
 model2 <- mylm(wages ~ language + age + language*age, data = SLID)
@@ -302,9 +305,11 @@ summary(model2)
 plot(model2)
 ```
 
+Here, the interpretation of the intercept is that for an observation of age 0 and english-speaking, the estimated wage is 6.55. The interpretation of the language coefficient is the same as in `model1`, except that the values differ. The interpretation for the age-coefficient is that if all other covariates are kept constant, the wage increases by 0.24 when the age increases by one year. The interaction effect between age and language can be interpreted as an adjustment on the effect of age if the observation is not english speaking: If the observation is french speaking, the wage will additionally decrease by 0.08 for each year. Simirlarly, if the observation is other-language speaking, the french-age interaction will be zero, but the interaction between other-language and age will give an adjustment on -0.04 if the year increases by one and the rest of the covariates are kept constant.
+
 For this model, $R^2=0.13$ which is lower than for `model1`. Since the number of estimated covariates is the same for the two models, this means that a higher fraction of the variance is explained by factors we have not included in this model. Also, only intercept and `age` are significant on significance level $0.001$. The interaction between `languageFrench` and `age`is significant on level 0.05. Since a model with interaction but no main effect is hard to interpret, we might want to consider a model without `language` but also include `education` which has turned out to be significant previously. 
 
-From the residual plot, we see that the residuals are not homoscedastic, indicating that we might want to try a different model.
+From the residual plot, we see that the residuals are not homoscedastic, also indicating that we might want to try a different model.
 
 **Model 3**
 
@@ -316,6 +321,8 @@ summary(model3)
 plot(model3)
 ```
 
-Now, the $R^2$-value do not make sense, but from the p-value in the summary, we see that the regression is significant. In the residual plot, we see that the variance is homoscedastic for values over 15 of estimated `wages`, but they are not quite symmetrically distributed around zero. For lower values, there seems to be an increasing variation, but we note that there are also fewer data points, so this might be due to randomness. 
+Now, the $R^2$-value do not make sense, but from the p-value in the summary, we see that the regression is significant. The interpretation of the parameters in this model is that for an observation with zero years of education, the wage is zero, and if year increases by one, the wage increase with 1.15.
 
-A small change that could make the model better is to include `age`, which have seemed to be significant in the earlier models.
+In the residual plot, we see that the variance is not homoscedastic and not symmetrically distributed around zero. For lower values, there are fewer data points and less symmetry. 
+
+A small change that could make the model better is to try to include `age` and intercept, which have seemed to be significant in the earlier models.
