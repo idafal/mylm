@@ -1,17 +1,17 @@
 --- 
-title: 'TMA4315: Compulsory exercise 1 (title)'
-output:
-  html_document:
-    toc: yes
+title: "TMA4315: Compulsory exercise 1 (title)" 
+subtitle: "Group 0: Name1, Name2 (subtitle)" 
+date: "`r format(Sys.time(), '%d.%m.%Y')`" # the current date, can be regular text as well
+output: # 3rd letter intentation hierarchy
+ # html_document:
+ #    toc: true
+ #  toc_float: true
+#    toc_depth: 2
+   pdf_document:
+    toc: false
     toc_depth: 2
-    toc_float: yes
-  pdf_document:
-    toc: yes
-    toc_depth: '2'
-date: "`r format(Sys.time(), '%d.%m.%Y')`"
-subtitle: 'Group 0: Name1, Name2 (subtitle)'
----
 
+---
 ```{r setup, include = FALSE}
 library(formatR)
 showsol <- FALSE
@@ -193,9 +193,11 @@ summary(model1b)
 
 # c)
 
-In the code chunk below, the code for the residual plot is shown along with the plot for `model1`. The raw residuals is the difference between the observed responses $y$ and the estimated response $\hat y$. For this specific dataset, these values is respectively the observed and estimated values for `wages`. The formula for the the residuals is  
+In the code chunk below, the code for the residual plot is shown along with the plot for `model1`. The raw residuals is the difference between the observed responses $Y$ and the estimated response $\hat Y$. For this specific dataset, these values is respectively the observed and estimated values for `wages`. The formula for the the residuals is  
 
-$$\hat\epsilon = y-\hat y $$.
+$$\hat\epsilon = Y-\hat Y, $$ where 
+
+$$\hat Y = X\hat \beta $$
 
 ```{r, echo=FALSE}
 library(ggplot2)
@@ -217,7 +219,7 @@ plot(model1)
 ```
 
 In the mylm-residual plot for the SLID dataset, it seems that the residuals are not homoscedastic, meaning that the
-variances seem to increase with higher values on the x-axis. However, there are fewer data points for lower values of the fitted values, so this tendency might be due to randomness. We also want the residuals to be symmetrically distributed around zero, which is not the case. This implies that the residuals might be correlated and we might want to try another regression model as the model assumptions is not preserved.
+variances seem to increase with higher values on the x-axis. However, there are fewer data points for lower values of the fitted values, so this tendency might be due to randomness. We also want the residuals to be symmetrically distributed around zero, which is not the case. This implies that the residuals might be correlated and we might want to try other regression models as the model assumptions is not preserved.
 
 To ensure the function was coded correctly, the residual plots was compared to the plot from the plotting function for lm-objects. 
 
@@ -260,8 +262,8 @@ The estimated coefficient of predictor $i$ can be interpreted as the value by wh
 Below, three different models are fitted using the `mylm`-package with `wages` as response. The first is with `age` as the only covariate, the second is with `language` as the only covariate, and the third is with both `age` and `language` in a multiple regression.
 
 ```{r, echo=FALSE}
-model3 = mylm(wages ~ -1+ age, data = SLID)
-model4 = mylm(wages ~ -1 +education, data =SLID)
+model3 = mylm(wages ~ age, data = SLID)
+model4 = mylm(wages ~ education, data =SLID)
 model5 = mylm(wages ~education + age, data = SLID)
 summary(model3)
 summary(model4)
@@ -284,7 +286,11 @@ summary(model1)
 plot(model1)
 ```
 
-The $R^2$ value is the fraction of variance that is explained by the regression. For this regression, we see from the summary above that that $R^2=0.30$. From the p-values, we see that all covariates execept `language` are significant. A change to make this model better might be to exclude `language`.
+The intercept for this model is -1.88. This means that the average wage of a person which is female and of age 0, has 0 years of education squared and is english-speaking, is -1.88 (these values does not make sense, but it is how we interpret the intercept). The interpretation of the coefficient `sexMale` is that the average increase in wage for being male compared to being female is 3.41. This means that if the observation is male, the wage will increase by 3.41 compared to a female observation with the rest of the covariates identical to the male observation. For the `age`-coefficient, the coefficient implies that if you hold the other covariates constant and increase `age` by one year, the wage will increase by 0.25. For the `language`-covariate, the interpretations of the coefficients are that an french or other-language-speaking observation will have a decrease of respectively 0.08 and 0.13 compared to an english-speaking observation. However, these covariates are not significant. The interpretation of the `education^2`-parameter is that if education^2 increases by one unit, the estimated wage will increase by 0.03.
+
+From the p-values, we see that all covariates execept `language` are significant. The $R^2$ value is the fraction of variance that is explained by the regression. For this regression, we see from the summary above that that $R^2=0.30$. From the residual plot, there is a tendency of increased variance of the residuals as the fitted values increases. Thus, we might want to consider another model as we do not have homoscedastic residuals which is an assumption for the linear regression.
+
+Since we have many covariates and based on the both significance of the coefficients and the residual plot, a change to make this model better can be to try to assess a model without the `language`-covariate. 
 
 **Model 2**
 
@@ -310,6 +316,6 @@ summary(model3)
 plot(model3)
 ```
 
-Now, the $R^2$-value do not make sense, but from the p.value in the summary, we see that the regression is significant. In the residual plot, we see that the variance is homoscedastic for values over 15 of estimated `wages`, but they are not quite symmetrically distributed around zero. For lower values, there seems to be an increasing variation, but we note that there are also fewer data points, so this might be due to randomness. 
+Now, the $R^2$-value do not make sense, but from the p-value in the summary, we see that the regression is significant. In the residual plot, we see that the variance is homoscedastic for values over 15 of estimated `wages`, but they are not quite symmetrically distributed around zero. For lower values, there seems to be an increasing variation, but we note that there are also fewer data points, so this might be due to randomness. 
 
 A small change that could make the model better is to include `age`, which have seemed to be significant in the earlier models.
