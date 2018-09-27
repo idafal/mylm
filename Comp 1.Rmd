@@ -22,13 +22,13 @@ opts_chunk$set(tidy.opts = list(width.cutoff = 68), tidy = TRUE, warning = FALSE
 
 # Introduction
 
-In this compulsary exercise we are going to make an r package, called "mylm", with some of the same functionality as found in the already existing r package `lm`. We are going to test our implementations on a data set in the library `car`. 
+In this compulsary exercise we are going to make an R package, called "mylm", with some of the same functionality as found in the already existing R package `lm`. We are going to test our implementations on a data set in the library `car`. 
 
 # Part 1
 
 ## a)
 
-The aim of part 1 is to get an overview of the dataset before making the linear regressions. The following diagram shows some diagnostic polts based on the data set from Canada in the car-library, containing information about `wages`, `education`, `age`, `sex` and `language`. 
+The aim of part 1 is to get an overview of the dataset before making the linear regressions. The following diagram shows some diagnostic plots based on the data set from Canada in the car-library, containing information about `wages`, `education`, `age`, `sex` and `language`. 
 
 ```{r, echo = FALSE}
 library(GGally)
@@ -135,6 +135,18 @@ summary.mylm <- function(object, ...){
   format(table, digits = 4)
 }
 
+plot.mylm <- function(object){
+  # Code here is used when plot(object) is used on objects of class "mylm"
+  y_hat <- object$X %*% object$coefficients 
+  y_true=object$y
+  residuals=y_true-y_hat
+  data <- data.frame(y_true,y_hat, residuals)
+  # Code here is used when plot(object) is used on objects of class "mylm"
+  p <- ggplot(data=data, aes(x=y_hat,y=residuals))+geom_point() +
+          ggtitle("Residuals vs. fitted values") + stat_smooth(method="loess")
+  p
+}
+
 
 ```
 
@@ -194,17 +206,6 @@ $$\hat Y = X\hat \beta. $$
 
 ```{r, echo=FALSE}
 library(ggplot2)
-plot.mylm <- function(object){
-  # Code here is used when plot(object) is used on objects of class "mylm"
-  y_hat <- object$X %*% object$coefficients 
-  y_true=object$y
-  residuals=y_true-y_hat
-  data <- data.frame(y_true,y_hat, residuals)
-  # Code here is used when plot(object) is used on objects of class "mylm"
-  p <- ggplot(data=data, aes(x=y_hat,y=residuals))+geom_point() +
-          ggtitle("Residuals vs. fitted values") + stat_smooth(method="loess")
-  p
-}
 model1 <- mylm(wages ~ education, data = SLID)
 model1b <- lm(wages ~ education, data = SLID)
 plot(model1)
