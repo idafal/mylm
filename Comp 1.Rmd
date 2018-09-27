@@ -1,14 +1,17 @@
-title: "TMA4315: Compulsory exercise 1 (title)" 
-subtitle: "Group 0: Name1, Name2 (subtitle)" 
+--- 
+title: "TMA4315: Compulsory exercise 1" 
+subtitle: "Group 10: Maia Tømmerbakk, Astrid Langsrud, Ida Marie Falnes" 
 date: "`r format(Sys.time(), '%d.%m.%Y')`" # the current date, can be regular text as well
 output: # 3rd letter intentation hierarchy
  # html_document:
  #    toc: true
- #    toc_float: true
- #    toc_depth: 2
+ #  toc_float: true
+#    toc_depth: 2
    pdf_document:
     toc: false
     toc_depth: 2
+
+---
 
 ```{r setup, include = FALSE}
 library(formatR)
@@ -283,7 +286,7 @@ The intercept for this model is -1.88. This means that the average wage of a per
 
 From the p-values, we see that all covariates execept `language` are significant. The $R^2$ value is the fraction of variance that is explained by the regression. For this regression, we see from the summary above that that $R^2=0.30$. From the residual plot, there is a tendency of increased variance of the residuals as the fitted values increases. Thus, we might want to consider another model as we do not have homoscedastic residuals which is an assumption for the linear regression.
 
-Since we have many covariates and based on the both significance of the coefficients and the residual plot, a change to make this model better can be to try to assess a model without the `language`-covariate. 
+Since we have many covariates and based on the both significance of the coefficients and the residual plot, a change to make this model better can be to try to assess a model without the `language`-covariate.
 
 **Model 2**
 
@@ -297,7 +300,7 @@ plot(model2)
 
 Here, the interpretation of the intercept is that for an observation of age 0 and english-speaking, the estimated wage is 6.55. The interpretation of the language coefficient is the same as in `model1`, except that the values differ. The interpretation for the age-coefficient is that if all other covariates are kept constant, the wage increases by 0.24 when the age increases by one year. The interaction effect between age and language can be interpreted as an adjustment on the effect of age if the observation is not english speaking: If the observation is french speaking, the wage will additionally decrease by 0.08 for each year. Simirlarly, if the observation is other-language speaking, the french-age interaction will be zero, but the interaction between other-language and age will give an adjustment on -0.04 if the year increases by one and the rest of the covariates are kept constant.
 
-For this model, $R^2=0.13$ which is lower than for `model1`. Since the number of estimated covariates is the same for the two models, this means that a higher fraction of the variance is explained by factors we have not included in this model. Also, only intercept and `age` are significant on significance level $0.001$. The interaction between `languageFrench` and `age`is significant on level 0.05. Since a model with interaction but no main effect is hard to interpret, we might want to consider a model without `language` but also include `education` which has turned out to be significant previously. 
+For this model, $R^2=0.13$ which is lower than for `model1`. Since the number of estimated covariates is the same for the two models, this means that a higher fraction of the variance is explained by factors we have not included in this model. Also, only intercept and `age` are significant on significance level $0.001$. The interaction between `languageFrench` and `age` is significant on level 0.05. Since a model with interaction but no main effect is hard to interpret, we might want to consider a model without `language` but also include `education` which has turned out to be significant previously. 
 
 From the residual plot, we see that the residuals are not homoscedastic, also indicating that we might want to try a different model.
 
