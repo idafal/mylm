@@ -1,13 +1,13 @@
 --- 
 title: 'TMA4315: Compulsory exercise 1 (title)'
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
   html_document:
     toc: yes
     toc_depth: 2
     toc_float: yes
-  pdf_document:
-    toc: yes
-    toc_depth: '2'
 date: "`r format(Sys.time(), '%d.%m.%Y')`"
 subtitle: 'Group 0: Name1, Name2 (subtitle)'
 ---
@@ -164,7 +164,7 @@ and further found the covariance matrix as
 
 $Cov = \hat{\sigma}^2 X^T X$
 
-The standard deviation for the estimated coefficients are set to the corresponding diagonal element of the covariance matrix. 
+The standard deviation for the estimated coefficients are set to the square root of the corresponding diagonal element of the covariance matrix. 
 
 The z-statistic for the z-test has the value
 
