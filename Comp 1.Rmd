@@ -1,18 +1,5 @@
 --- 
-<<<<<<< HEAD
-title: 'TMA4315: Compulsory exercise 1 (title)'
-output:
-  pdf_document:
-    toc: yes
-    toc_depth: '2'
-  html_document:
-    toc: yes
-    toc_depth: 2
-    toc_float: yes
-date: "`r format(Sys.time(), '%d.%m.%Y')`"
-subtitle: 'Group 0: Name1, Name2 (subtitle)'
----
-=======
+
 title: "TMA4315: Compulsory exercise 1 (title)" 
 subtitle: "Group 0: Name1, Name2 (subtitle)" 
 date: "`r format(Sys.time(), '%d.%m.%Y')`" # the current date, can be regular text as well
@@ -24,9 +11,7 @@ output: # 3rd letter intentation hierarchy
    pdf_document:
     toc: false
     toc_depth: 2
->>>>>>> 26f00afea234e2028a3bceb64eb7894a977daf5c
 
----
 ```{r setup, include = FALSE}
 library(formatR)
 showsol <- FALSE
@@ -36,7 +21,7 @@ opts_chunk$set(tidy.opts = list(width.cutoff = 68), tidy = TRUE, warning = FALSE
 
 # Introduction
 
-In this compulsary exercise we are going to make an r package, called "mylm", with some of the same functionality as found in the already existing r package `lm`. We are going to test our implementations on the
+In this compulsary exercise we are going to make an r package, called "mylm", with some of the same functionality as found in the already existing r package `lm`. We are going to test our implementations on a data set in the library `car`. 
 
 # Part 1
 
@@ -158,7 +143,7 @@ ${\bf{\hat{\beta}}} = (X^TX)^{-1}X^TY .$
 
 The following printouts gives the estimated intercept and regression coefficient from the linear regression with `wages` as response and `education` as predictor using `mylm` and `lm` respectively.
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 model1 <- mylm(wages ~ education, data = SLID)
 print(model1)
 
@@ -179,11 +164,7 @@ and further found the covariance matrix as
 
 $\text{Cov} = \hat{\sigma}^2 X^T X.$
 
-<<<<<<< HEAD
 The standard deviation for the estimated coefficients are set to the square root of the corresponding diagonal element of the covariance matrix. 
-=======
-The standard deviation for the estimated coefficients are set to the corresponding square roots of the diagonal element of the covariance matrix. 
->>>>>>> 26f00afea234e2028a3bceb64eb7894a977daf5c
 
 The z-statistic for the z-test has the value
 
@@ -193,22 +174,14 @@ where $\beta_0$ is the beta-value of the the null hypothesis, in this case $\bet
 
 The p-value is calculated as $2 \times \text{`pnorm`}(-|z|)$, where "pnorm" is a function in R which returns the p-value corresponding to the value of its input statistic. We are interested in the p-value corresponding to the two-sided test, so therefore we are multiplying the value by two. 
 
-$R^2$ is calculated as 
+These values are presented in a "summary-table" in a similar way as the summary corresponding to `lm`. The $R^2$-value is also included in the table. The calculation of this value will be considered later. The following shows the summary of the regression using `mylm` and `lm` respectively. 
 
-$R^2 = 1 - \frac{SSE}{SST},$
-
-where SSE and SST is
-
-$SST = {\bf Y}^T({\bf I}-\frac{1}{n}{\bf 1 1}^T){\bf Y},$
-
-$SSE = ({\bf Y}-{\bf X}{\hat{\beta}})^T({\bf Y}-{\bf X}{\bf \hat{\beta}}).$
-
-These values are presented in a "summary-table" in a similar way as the summary corresponding to `lm`. The following shows the summary of the regression using `mylm` and `lm` respectively. 
-
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 summary(model1)
 summary(model1b)
 ```
+
+Also here the two regressions produce similar values. The small size of the p-values indicate that the regression is significant. The estimate of the regression coefficient for education can be understoos as the value by which the wages will increase when the value of education is increased by one. The intecept can be interpreted as the value of wages when the number of years of education equals zero.
 
 ## c)
 
