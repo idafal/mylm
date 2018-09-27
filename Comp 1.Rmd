@@ -1,5 +1,3 @@
---- 
-
 title: "TMA4315: Compulsory exercise 1 (title)" 
 subtitle: "Group 0: Name1, Name2 (subtitle)" 
 date: "`r format(Sys.time(), '%d.%m.%Y')`" # the current date, can be regular text as well
@@ -233,7 +231,7 @@ The coefficient of determination, $R^2$, is defined as $$R^2 = \frac{SST-SSE}{SS
 ## a)
 The matemathical formulas presented in part 2 works for multiple linear regression as well. The printout of the regression of `wages` with predictors `education` and `age` using the `mylm` function and the `lm` function are
 
-```{r, echo = FALSE}
+```{r, echo = TRUE}
 model2 <- mylm(wages ~ education + age, data = SLID)
 model2b <- lm(wages ~ education + age, data = SLID)
 
@@ -245,7 +243,7 @@ print(model2b)
 
 The summaries for this regression using `lm` and `mylm` including standard deviation and z-test are shown below.
 
-```{r, echo= FALSE}
+```{r, echo= TRUE}
 summary(model2)
 summary(model2b)
 ```
@@ -256,7 +254,7 @@ The estimated coefficient of predictor $i$ can be interpreted as the value by wh
 
 Below, three different models are fitted using the `mylm`-package with `wages` as response. The first is with `age` as the only covariate, the second is with `language` as the only covariate, and the third is with both `age` and `language` in a multiple regression.
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 model3 = mylm(wages ~ age, data = SLID)
 model4 = mylm(wages ~ education, data =SLID)
 model5 = mylm(wages ~education + age, data = SLID)
