@@ -8,9 +8,9 @@ output:
   pdf_document:
     toc: yes
     toc_depth: '2'
-date: "`r format(Sys.time(), '%d.%m.%Y')`"
+date: '`r format(Sys.time(), ''%d.%m.%Y'')`'
 subtitle: 'Group 0: Name1, Name2 (subtitle)'
----
+
 
 ```{r setup, include = FALSE}
 library(formatR)
@@ -240,4 +240,4 @@ plot(model3)
 
 Now, the $R^2$-value do not make sense, but from the p.value in the summary, we see that the regression is significant. In the residual plot, we see that the variance is homoscedastic for values over 15 of estimated `wages`, but they are not quite symmetrically distributed around zero. For lower values, there seems to be an increasing variation, but we note that there are also fewer data points, so this might be due to randomness. 
 
-A small change that could make the model better is to include `age`, which have seemed to be significant in the earlier models.
+A small change that could make the model better is to include age, which have seemed to be significant in the earlier models.

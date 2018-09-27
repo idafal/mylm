@@ -1,30 +1,15 @@
 --- 
-<<<<<<< HEAD
-title: 'TMA4315: Compulsory exercise 1 (title)'
-output:
-  pdf_document:
-    toc: yes
-    toc_depth: '2'
-  html_document:
-    toc: yes
-    toc_depth: 2
-    toc_float: yes
-date: "`r format(Sys.time(), '%d.%m.%Y')`"
-subtitle: 'Group 0: Name1, Name2 (subtitle)'
----
-=======
 title: "TMA4315: Compulsory exercise 1 (title)" 
 subtitle: "Group 0: Name1, Name2 (subtitle)" 
 date: "`r format(Sys.time(), '%d.%m.%Y')`" # the current date, can be regular text as well
 output: # 3rd letter intentation hierarchy
  # html_document:
  #    toc: true
- #    toc_float: true
- #    toc_depth: 2
+ #  toc_float: true
+#    toc_depth: 2
    pdf_document:
     toc: false
     toc_depth: 2
->>>>>>> 26f00afea234e2028a3bceb64eb7894a977daf5c
 
 ---
 ```{r setup, include = FALSE}
@@ -179,11 +164,7 @@ and further found the covariance matrix as
 
 $\text{Cov} = \hat{\sigma}^2 X^T X.$
 
-<<<<<<< HEAD
-The standard deviation for the estimated coefficients are set to the square root of the corresponding diagonal element of the covariance matrix. 
-=======
 The standard deviation for the estimated coefficients are set to the corresponding square roots of the diagonal element of the covariance matrix. 
->>>>>>> 26f00afea234e2028a3bceb64eb7894a977daf5c
 
 The z-statistic for the z-test has the value
 
